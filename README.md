@@ -1,9 +1,7 @@
 # React Native App Test
 Test using React Native.
-Using an Airbnb React Native Mapview component to display a JSON feed of geolocation data and places those markers on the map.
-
-# Feeds
-The src/config/feed.js file contains the URL structures as well as injectable parameters for the Marker feeds.
+Using the Airbnb React Native Mapview component to display a JSON feed of geolocation data as markers on the map.
+Using google palces api to get the nearby restaurants based on device location.
 
 # Third-Party Components
 * [react-native](https://github.com/facebook/react-native)

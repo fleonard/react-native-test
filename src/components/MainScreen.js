@@ -17,7 +17,7 @@ import { connect } from 'react-redux';
 
 import actions from '../actions';
 
-import { googleApis } from '../config/feeds';
+import { googleApis } from '../config/apis';
 
 class MainSreen extends Component {
 
