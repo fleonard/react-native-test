@@ -43,10 +43,9 @@ class MainSreen extends Component {
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        console.log(position);
         let region = {
-          latitude:       position.coords.latitude,
-          longitude:      position.coords.longitude,
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
           latitudeDelta: 0.03,
           longitudeDelta: 0.03
         }
