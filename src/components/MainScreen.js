@@ -1,6 +1,5 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
+ * Map Screen
  * @flow
  */
 
@@ -19,13 +18,6 @@ import { connect } from 'react-redux';
 import actions from '../actions';
 
 import { googleApis } from '../config/feeds';
-
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button (cmd + m) for dev menu',
-});
 
 class MainSreen extends Component {
 
@@ -54,7 +46,7 @@ class MainSreen extends Component {
       (error) => this.setState({ error: error.message })
       //,{ enableHighAccuracy: true, timeout: 20000, maximumAge: 0 } supposed to be used for andorid emulator but not really working
     );
-   }
+  }
 
   /*
    * Channel One API Requests
