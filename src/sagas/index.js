@@ -8,7 +8,6 @@ function* getMarkers() {
 }
 
 function* handleGetMarkers(action) {
-  console.log(action.payload);
   const data = yield call(() => fetch(action.payload, { method: 'get' })
   .then(res => res.json()));
 

@@ -33,17 +33,29 @@ class MainSreen extends Component {
     super(props);
 
     this.state = {
-      mapRegion: {
-        latitude: 51.5217377,
-        longitude: -0.0842008,
-        latitudeDelta: 0.03,
-        longitudeDelta: 0.03
-      }
+      mapRegion: null
     };
 
     // Bind this function in order to have access to "this" inside the callback
     this.onRegionChangeComplete = this.onRegionChangeComplete.bind(this);
   }
+
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.log(position);
+        let region = {
+          latitude:       position.coords.latitude,
+          longitude:      position.coords.longitude,
+          latitudeDelta: 0.03,
+          longitudeDelta: 0.03
+        }
+        this.setState({ mapRegion: region });
+      },
+      (error) => this.setState({ error: error.message })
+      //,{ enableHighAccuracy: true, timeout: 20000, maximumAge: 0 } supposed to be used for andorid emulator but not really working
+    );
+   }
 
   /*
    * Channel One API Requests
@@ -74,7 +86,7 @@ class MainSreen extends Component {
           showsUserLocation={true}
           showsMyLocationButton={true}>
           {
-            this.props.markers.length && this.props.markers.map((marker, i) => {
+            !!this.props.markers.length && this.props.markers.map((marker, i) => {
               return <MapView.Marker
                 key={i}
                 title={marker.name}
@@ -123,6 +135,6 @@ const styles = StyleSheet.create({
     bottom: 0
   },
   icon: {
-    paddingRight: 10
+    paddingRight: 15
   }
 });
