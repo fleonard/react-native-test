@@ -5,7 +5,6 @@
 
 import React, { Component } from 'react';
 import {
-  Platform,
   StyleSheet,
   Text,
   View
@@ -17,7 +16,7 @@ import { connect } from 'react-redux';
 
 import actions from '../actions';
 
-import { googleApis } from '../config/apis';
+import { googleApis, instagramAuth } from '../config/apis';
 
 class MainSreen extends Component {
 
@@ -58,11 +57,10 @@ class MainSreen extends Component {
     });
   }
 
-
   static navigationOptions = ({navigation}) => ({
     title: `React Native Test`,
     headerRight: (
-       <Icon style={styles.icon} name='person' onPress={() => navigation.navigate('Login')}/>
+       <Icon style={styles.icon} name='person' onPress={() => navigation.navigate('Login', { uri: instagramAuth() })}/>
     )
   });
 
@@ -98,9 +96,11 @@ class MainSreen extends Component {
 
 const mapStateToProps = (state) => {
   const { markers } = state.map;
+  const { authToken } = state.instagram;
   
   return {
-    markers
+    markers,
+    authToken
   };
 };
 

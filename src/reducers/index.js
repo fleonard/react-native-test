@@ -17,8 +17,20 @@ const map = handleActions(
   }
 );
 
+const instagram = handleActions(
+  {
+    [types.SAVE_INSTAGRAM_TOKEN] (state, action) {
+      return { ...state, authToken: action.payload };
+    }
+  },
+  {
+    authToken: null
+  }
+);
+
 const reducers = combineReducers({
-  map
+  map,
+  instagram
 });
 
 export default reducers;
