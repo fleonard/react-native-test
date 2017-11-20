@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 
 import actions from '../actions';
 
-import { googleApis, instagramAuth } from '../config/apis';
+import { googleApis, instagramAuth, instagramLocations, instagramMedias } from '../config/apis';
 
 class MainSreen extends Component {
 
@@ -24,10 +24,10 @@ class MainSreen extends Component {
     super(props);
 
     this.state = {
-      mapRegion: null
+      mapRegion: null,
+      selectedMarker: null
     };
 
-    // Bind this function in order to have access to "this" inside the callback
     this.onRegionChangeComplete = this.onRegionChangeComplete.bind(this);
   }
 
@@ -47,14 +47,16 @@ class MainSreen extends Component {
     );
   }
 
-  /*
-   * Channel One API Requests
-   */
-
   onRegionChangeComplete(mapRegion) {
     this.setState({ mapRegion: mapRegion }, () => {
       this.props.getMarkers(googleApis(this.state.mapRegion.latitude, this.state.mapRegion.longitude, ''));
     });
+  }
+
+  onMarkerSelect(name, latitude, longitude) {
+    this.props.clearInstagramLocations();
+    this.props.getInstagramLocations(instagramLocations(latitude, longitude, this.props.authToken));
+    this.props.setSelectedMarker(name);
   }
 
   static navigationOptions = ({navigation}) => ({
@@ -79,7 +81,9 @@ class MainSreen extends Component {
               return <MapView.Marker
                 key={i}
                 title={marker.name}
-                coordinate={{latitude: marker.geometry.location.lat, longitude: marker.geometry.location.lng}}>
+                coordinate={{latitude: marker.geometry.location.lat, longitude: marker.geometry.location.lng}}
+                onSelect={() => this.onMarkerSelect(marker, marker.geometry.location.lat, marker.geometry.location.lng)}
+                onPress={() => this.onMarkerSelect(marker, marker.geometry.location.lat, marker.geometry.location.lng)}>
                 <MapView.Callout>
                     <View>
                       <Text>{marker.name}</Text>
@@ -96,11 +100,13 @@ class MainSreen extends Component {
 
 const mapStateToProps = (state) => {
   const { markers } = state.map;
-  const { authToken } = state.instagram;
+  const { authToken, locations, images } = state.instagram;
   
   return {
     markers,
-    authToken
+    authToken,
+    locations, 
+    images
   };
 };
 
@@ -108,6 +114,15 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getMarkers(url) {
       dispatch(actions.getMarkers(url));
+    },
+    setSelectedMarker(name) {
+      dispatch(actions.setSelectedMarker(name));
+    },
+    getInstagramLocations(url) {
+      dispatch(actions.getInstagramLocations(url));
+    },
+    clearInstagramLocations() {
+      dispatch(actions.clearInstagramLocations());
     }
   };
 };

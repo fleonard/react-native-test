@@ -49,7 +49,7 @@ class LoginSreen extends Component {
     let url = navState.url;
   
     if (url.indexOf("access_token=") > -1) {
-      this.props.saveInstagramToken(this.getAccessToken(url));
+      this.props.setInstagramToken(this.getAccessToken(url));
   
       this.setState({
         isLoggedIn: true
@@ -94,8 +94,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    saveInstagramToken(token) {
-      dispatch(actions.saveInstagramToken(token));
+    setInstagramToken(token) {
+      dispatch(actions.setInstagramToken(token));
     }
   };
 };
