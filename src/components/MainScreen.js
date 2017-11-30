@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { Icon } from 'native-base';
 import MapView from 'react-native-maps';
+import InfoScreen from './InfoScreen';
 
 import { connect } from 'react-redux';
 
@@ -25,7 +26,7 @@ class MainSreen extends Component {
 
     this.state = {
       mapRegion: null,
-      selectedMarker: null
+      isMarkerSelected: false
     };
 
     this.onRegionChangeComplete = this.onRegionChangeComplete.bind(this);
@@ -53,10 +54,12 @@ class MainSreen extends Component {
     });
   }
 
-  onMarkerSelect(name, latitude, longitude) {
-    this.props.clearInstagramLocations();
-    this.props.getInstagramLocations(instagramLocations(latitude, longitude, this.props.authToken));
-    this.props.setSelectedMarker(name);
+  onMarkerSelect(marker, latitude, longitude) {
+    //this.props.clearInstagramLocations();
+    //this.props.getInstagramLocations(instagramLocations(latitude, longitude, this.props.authToken));
+    this.props.setSelectedMarker(marker);
+
+    this.setState({ isMarkerSelected: true });
   }
 
   static navigationOptions = ({navigation}) => ({
@@ -67,6 +70,7 @@ class MainSreen extends Component {
   });
 
   render() {
+    console.log(this.state.isMarkerSelected);
     return (
       <View style={styles.container}>
         <MapView
@@ -93,17 +97,19 @@ class MainSreen extends Component {
             })
           }
         </MapView>
+        { this.state.isMarkerSelected && <InfoScreen selectedMarker={this.props.selectedMarker} /> }
       </View>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  const { markers } = state.map;
+  const { markers, selectedMarker } = state.map;
   const { authToken, locations, images } = state.instagram;
   
   return {
     markers,
+    selectedMarker,
     authToken,
     locations, 
     images

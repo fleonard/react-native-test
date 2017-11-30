@@ -17,7 +17,7 @@ const map = handleActions(
   },
   {
     markers: {},
-    selectedMarker: ''
+    selectedMarker: {}
   }
 );
 
