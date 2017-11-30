@@ -22,8 +22,6 @@ export default class InfoSreen extends Component {
   constructor(props) {
     super(props);
 
-    console.log(this.props.selectedMarker);
-
     this.state = {
       startValue: new Animated.Value(0),
       isExpanded: false
@@ -31,7 +29,7 @@ export default class InfoSreen extends Component {
   }
 
   animateView() {
-    var toValue = (screen.height - 200) * -1;
+    let toValue = (screen.height - 200) * -1;
     if (this.state.isExpanded) {
       toValue = 0;
     }
@@ -75,7 +73,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: '#fafafa',
     left: 20,
-    top: screen.height - 150,
+    top: screen.height - 200,
     width: screen.width - 40,
     height: screen.height - 100,
     paddingHorizontal: 20,
