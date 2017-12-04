@@ -7,6 +7,7 @@ import React, { Component } from 'react';
 import {
   Animated,
   Dimensions,
+  Image,
   Platform,
   StyleSheet,
   Text,
@@ -14,6 +15,8 @@ import {
   TouchableNativeFeedback,
   View
 } from 'react-native';
+
+import { googlePhotoApis } from '../config/apis';
 
 const screen = Dimensions.get('window');
 
@@ -54,14 +57,27 @@ export default class InfoSreen extends Component {
       return <TouchableNativeFeedback onPress={() => {this.animateView()}}>
         <Animated.View style={[styles.container,
           {transform: [{translateY: this.state.startValue}]}]}>
-          <Text>{this.props.selectedMarker.name}</Text>
+          <Text style={styles.title}>{this.props.selectedMarker.name}</Text>
+          <Image
+            style={styles.image}
+            source={{uri: googlePhotoApis(this.props.selectedMarker.photos[0].photo_reference)}}
+          />
+          { 
+            this.props.selectedMarker.opening_hours.open_now ?
+            <Text>Open Now</Text> :
+            <Text>Now Closed</Text>
+          }
         </Animated.View>
       </TouchableNativeFeedback>
     } else {
       return <TouchableHighlight onPress={() => {this.animateView()}}>
         <Animated.View style={[styles.container,
           {transform: [{translateY: this.state.startValue}]}]}>
-          <Text>{this.props.selectedMarker.name}</Text>
+          <Text style={styles.title}>{this.props.selectedMarker.name}</Text>
+          <Image
+            style={styles.image}
+            source={googlePhotoApis(this.props.selectedMarker.photos.photo_reference)}
+          />
         </Animated.View>
       </TouchableHighlight>
     }
@@ -78,5 +94,14 @@ const styles = StyleSheet.create({
     height: screen.height - 100,
     paddingHorizontal: 20,
     paddingTop: 30
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  image: {
+    width: screen.width - 80,
+    height: 200,
+    marginVertical: 20
   },
 });
