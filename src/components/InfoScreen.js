@@ -53,7 +53,6 @@ export default class InfoSreen extends Component {
   }
 
   render() {
-    console.log(this.props.placeDetails);
     if (Platform.OS === 'android' && !!this.props.placeDetails) {
       return <TouchableNativeFeedback onPress={() => {this.animateView()}}>
         <Animated.View style={[styles.container,
