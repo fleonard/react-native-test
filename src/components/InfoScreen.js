@@ -63,7 +63,7 @@ export default class InfoSreen extends Component {
             !!this.props.placeDetails.photos &&
             <Image
               style={styles.image}
-              source={{uri: googlePhotoApis(this.props.placeDetails.photos[0].photo_reference)}}
+              source={{uri: googlePhotoApis(this.props.placeDetails.photos[Math.floor(Math.random() * this.props.placeDetails.photos.length)].photo_reference)}}
             />
           }
           { 
