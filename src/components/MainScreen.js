@@ -17,7 +17,7 @@ import { connect } from 'react-redux';
 
 import actions from '../actions';
 
-import { googleApis, instagramAuth, instagramLocations, instagramMedias } from '../config/apis';
+import { googleApis, googlePlaceDetailsApis, instagramAuth, instagramLocations, instagramMedias } from '../config/apis';
 
 class MainSreen extends Component {
 
@@ -57,7 +57,8 @@ class MainSreen extends Component {
   onMarkerSelect(marker, latitude, longitude) {
     //this.props.clearInstagramLocations();
     //this.props.getInstagramLocations(instagramLocations(latitude, longitude, this.props.authToken));
-    this.props.setSelectedMarker(marker);
+    //this.props.setSelectedMarker(marker);
+    this.props.getPlaceDetails(googlePlaceDetailsApis(marker.place_id));
 
     this.setState({ isMarkerSelected: true });
   }
@@ -70,7 +71,6 @@ class MainSreen extends Component {
   });
 
   render() {
-    console.log(this.state.isMarkerSelected);
     return (
       <View style={styles.container}>
         <MapView
@@ -97,19 +97,20 @@ class MainSreen extends Component {
             })
           }
         </MapView>
-        { this.state.isMarkerSelected && <InfoScreen selectedMarker={this.props.selectedMarker} /> }
+        { this.state.isMarkerSelected && <InfoScreen placeDetails={this.props.placeDetails} /> }
       </View>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  const { markers, selectedMarker } = state.map;
+  const { markers, selectedMarker, placeDetails } = state.map;
   const { authToken, locations, images } = state.instagram;
   
   return {
     markers,
     selectedMarker,
+    placeDetails,
     authToken,
     locations, 
     images
@@ -120,6 +121,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getMarkers(url) {
       dispatch(actions.getMarkers(url));
+    },
+    getPlaceDetails(url) {
+      dispatch(actions.getPlaceDetails(url));
     },
     setSelectedMarker(name) {
       dispatch(actions.setSelectedMarker(name));

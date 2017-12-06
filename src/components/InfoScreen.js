@@ -32,7 +32,7 @@ export default class InfoSreen extends Component {
   }
 
   animateView() {
-    let toValue = (screen.height - 200) * -1;
+    let toValue = (screen.height - 180) * -1;
     if (this.state.isExpanded) {
       toValue = 0;
     }
@@ -53,31 +53,59 @@ export default class InfoSreen extends Component {
   }
 
   render() {
-    if (Platform.OS === 'android') {
+    console.log(this.props.placeDetails);
+    if (Platform.OS === 'android' && !!this.props.placeDetails) {
       return <TouchableNativeFeedback onPress={() => {this.animateView()}}>
         <Animated.View style={[styles.container,
           {transform: [{translateY: this.state.startValue}]}]}>
-          <Text style={styles.title}>{this.props.selectedMarker.name}</Text>
-          <Image
-            style={styles.image}
-            source={{uri: googlePhotoApis(this.props.selectedMarker.photos[0].photo_reference)}}
-          />
-          { 
-            this.props.selectedMarker.opening_hours.open_now ?
-            <Text>Open Now</Text> :
-            <Text>Now Closed</Text>
+          <Text style={styles.title}>{this.props.placeDetails.name}</Text>
+          {
+            !!this.props.placeDetails.photos &&
+            <Image
+              style={styles.image}
+              source={{uri: googlePhotoApis(this.props.placeDetails.photos[0].photo_reference)}}
+            />
           }
+          { 
+            !!this.props.placeDetails.opening_hours && this.props.placeDetails.opening_hours.open_now ?
+              <Text style={styles.paragraph}>Open Now</Text> :
+              <Text style={styles.paragraph}>Now Closed</Text>
+          }
+          { 
+            !!this.props.placeDetails.opening_hours && this.props.placeDetails.opening_hours.weekday_text.map((time, i) => {
+              return <Text key={i} style={styles.paragraph}>{time}</Text>
+            })
+          }
+          <Text style={styles.paragraph}>Address: {this.props.placeDetails.formatted_address}</Text>
+          <Text style={styles.paragraph}>Phone Number: {this.props.placeDetails.international_phone_number}</Text>
+          <Text style={styles.paragraph}>Rating: {this.props.placeDetails.rating}</Text>
         </Animated.View>
       </TouchableNativeFeedback>
     } else {
       return <TouchableHighlight onPress={() => {this.animateView()}}>
         <Animated.View style={[styles.container,
           {transform: [{translateY: this.state.startValue}]}]}>
-          <Text style={styles.title}>{this.props.selectedMarker.name}</Text>
-          <Image
-            style={styles.image}
-            source={googlePhotoApis(this.props.selectedMarker.photos.photo_reference)}
-          />
+          <Text style={styles.title}>{this.props.placeDetails.name}</Text>
+          {
+            !!this.props.placeDetails.photos &&
+            <Image
+              style={styles.image}
+              source={{uri: googlePhotoApis(this.props.placeDetails.photos[0].photo_reference)}}
+            />
+          }
+          { 
+            !!this.props.placeDetails.opening_hours && this.props.placeDetails.opening_hours.open_now ?
+              <Text style={styles.paragraph}>Open Now</Text> :
+              <Text style={styles.paragraph}>Now Closed</Text>
+          }
+          { 
+            !!this.props.placeDetails.opening_hours && this.props.placeDetails.opening_hours.weekday_text.map((time, i) => {
+              return <Text key={i} style={styles.paragraph}>{time}</Text>
+            })
+          }
+          <Text style={styles.paragraph}>Address: {this.props.placeDetails.formatted_address}</Text>
+          <Text style={styles.paragraph}>Phone Number: {this.props.placeDetails.international_phone_number}</Text>
+          <Text style={styles.paragraph}>Rating: {this.props.placeDetails.rating}</Text>
         </Animated.View>
       </TouchableHighlight>
     }
@@ -89,9 +117,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: '#fafafa',
     left: 20,
-    top: screen.height - 200,
+    top: screen.height - 150,
     width: screen.width - 40,
-    height: screen.height - 100,
+    height: screen.height - 50,
     paddingHorizontal: 20,
     paddingTop: 30
   },
@@ -99,9 +127,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
+  paragraph: {
+    fontSize: 14,
+    marginVertical: 5
+  },
   image: {
     width: screen.width - 80,
-    height: 200,
+    height: 220,
     marginVertical: 20
   },
 });

@@ -3,6 +3,11 @@ export function googleApis(latitude, longitude) {
   return 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=700&rankby=prominence&opennow=true&type=restaurant&key=AIzaSyAzs4PE09t8owoKD5ZewNXsts6NqTViy2c';
 }
 
+// Google Places Details API
+export function googlePlaceDetailsApis(placeId) {
+  return 'https://maps.googleapis.com/maps/api/place/details/json?placeid=' + placeId + '&key=AIzaSyAzs4PE09t8owoKD5ZewNXsts6NqTViy2c';
+}
+
 // Google Places Photo API
 export function googlePhotoApis(photoReference) {
   return 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=' + photoReference + '&key=AIzaSyAzs4PE09t8owoKD5ZewNXsts6NqTViy2c';
