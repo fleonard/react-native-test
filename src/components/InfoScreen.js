@@ -85,27 +85,27 @@ export default class InfoSreen extends Component {
       return <TouchableHighlight onPress={() => {this.animateView()}}>
         <Animated.View style={[styles.container,
           {transform: [{translateY: this.state.startValue}]}]}>
-          <Text style={styles.title}>{this.props.placeDetails.name}</Text>
+          <Text style={[styles.title, styles.bold]}>{this.props.placeDetails.name}</Text>
           {
             !!this.props.placeDetails.photos &&
             <Image
               style={styles.image}
-              source={{uri: googlePhotoApis(this.props.placeDetails.photos[0].photo_reference)}}
+              source={{uri: googlePhotoApis(this.props.placeDetails.photos[Math.floor(Math.random() * this.props.placeDetails.photos.length)].photo_reference)}}
             />
           }
           { 
             !!this.props.placeDetails.opening_hours && this.props.placeDetails.opening_hours.open_now ?
-              <Text style={styles.paragraph}>Open Now</Text> :
-              <Text style={styles.paragraph}>Now Closed</Text>
+              <Text style={[styles.paragraph, styles.bold]}>Open Now</Text> :
+              <Text style={[styles.paragraph, styles.bold]}>Now Closed</Text>
           }
           { 
             !!this.props.placeDetails.opening_hours && this.props.placeDetails.opening_hours.weekday_text.map((time, i) => {
               return <Text key={i} style={styles.paragraph}>{time}</Text>
             })
           }
-          <Text style={styles.paragraph}>Address: {this.props.placeDetails.formatted_address}</Text>
-          <Text style={styles.paragraph}>Phone Number: {this.props.placeDetails.international_phone_number}</Text>
-          <Text style={styles.paragraph}>Rating: {this.props.placeDetails.rating}</Text>
+          <Text style={styles.paragraph}><Text style={styles.bold}>Address:</Text> {this.props.placeDetails.formatted_address}</Text>
+          <Text style={styles.paragraph}><Text style={styles.bold}>Phone Number:</Text> {this.props.placeDetails.international_phone_number}</Text>
+          <Text style={styles.paragraph}><Text style={styles.bold}>Rating:</Text> {this.props.placeDetails.rating}</Text>
         </Animated.View>
       </TouchableHighlight>
     }
