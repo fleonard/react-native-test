@@ -11,16 +11,12 @@ const map = handleActions(
     [types.CLEAR_MARKERS] (state) {
       return { ...state, markers: {} };
     },
-    [types.SET_SELECTED_MARKER] (state, action) {
-      return { ...state, selectedMarker: action.payload };
-    },
     [types.SET_PLACE_DETAILS] (state, action) {
       return { ...state, placeDetails: action.payload };
     }
   },
   {
     markers: {},
-    selectedMarker: {},
     placeDetails: {}
   }
 );

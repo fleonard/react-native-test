@@ -56,8 +56,7 @@ class MainSreen extends Component {
 
   onMarkerSelect(marker, latitude, longitude) {
     //this.props.clearInstagramLocations();
-    //this.props.getInstagramLocations(instagramLocations(latitude, longitude, this.props.authToken));
-    //this.props.setSelectedMarker(marker);
+    //this.props.getInstagramLocations(instagramLocations(latitude, longitude, this.props.authToken));§
     this.props.getPlaceDetails(googlePlaceDetailsApis(marker.place_id));
 
     this.setState({ isMarkerSelected: true });
@@ -104,12 +103,11 @@ class MainSreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { markers, selectedMarker, placeDetails } = state.map;
+  const { markers, placeDetails } = state.map;
   const { authToken, locations, images } = state.instagram;
   
   return {
     markers,
-    selectedMarker,
     placeDetails,
     authToken,
     locations, 
@@ -124,9 +122,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     getPlaceDetails(url) {
       dispatch(actions.getPlaceDetails(url));
-    },
-    setSelectedMarker(name) {
-      dispatch(actions.setSelectedMarker(name));
     },
     getInstagramLocations(url) {
       dispatch(actions.getInstagramLocations(url));
